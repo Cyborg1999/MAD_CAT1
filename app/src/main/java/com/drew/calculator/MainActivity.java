@@ -7,6 +7,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import net.objecthunter.exp4j.Expression;
+import net.objecthunter.exp4j.ExpressionBuilder;
+import net.objecthunter.exp4j.ValidationResult;
+
 public class MainActivity extends AppCompatActivity {
 
 
@@ -14,6 +18,8 @@ public class MainActivity extends AppCompatActivity {
     TextView tvInput, tvOutput;
     String process;
     boolean checkBracket = false;
+    boolean stateError;
+
 
 
     @Override
@@ -41,9 +47,11 @@ public class MainActivity extends AppCompatActivity {
         btnDot = findViewById(R.id.btnDot);
         btnPercent = findViewById(R.id.btnPercent);
         btnBracket = findViewById(R.id.btnBracket);
+	btnEqual = findViewById(R.id.btnEqual);
 
         tvInput = findViewById(R.id.tv_input);
         tvOutput = findViewById(R.id.tv_output);
+	
 
         btnClear.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -184,6 +192,7 @@ public class MainActivity extends AppCompatActivity {
                 tvInput.setText(process + "%");
             }
         });
+
         btnBracket.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -208,19 +217,33 @@ public class MainActivity extends AppCompatActivity {
 
                 process = tvInput.getText().toString();
 
-                process = process.replaceAll("x","*");
-                process = process.replaceAll("%","/100");
+                process = process.replaceAll("x", "*");
+                process = process.replaceAll("%", "/100");
 
-               // String finalResult = "";
+                // String finalResult = "";
+
+		Expression expression = new ExpressionBuilder(process).build();
+		try{
+			double finalResult = expression.evaluate();
+			tvOutput.setText(Double.toString(finalResult));
+
+			
+		}catch (ArithmeticException ex){
+
+			tvOutput.setText("Error");
 
 
+		}
 
             }
+
         });
 
 
 
+
     }
+
 
 
 }
