@@ -216,11 +216,11 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 process = tvInput.getText().toString();
+/*
+//                process = process.replaceAll("x", "*");
+//                process = process.replaceAll("%", "/100");
 
-                process = process.replaceAll("x", "*");
-                process = process.replaceAll("%", "/100");
-
-                // String finalResult = "";
+                // String finalResult = "";*/
 
 		Expression expression = new ExpressionBuilder(process).build();
 		try{
